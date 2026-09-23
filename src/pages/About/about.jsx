@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaPlay, FaTimes } from "react-icons/fa";
-import aboutStats from "../data/aboutData";
+import aboutStats from "../../data/aboutData";
 
 function About() {
   // Controls whether the video popup is open
@@ -15,25 +15,39 @@ function About() {
         initial={{ opacity: 0, x: -30 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }} >
-        <img
+        transition={{ duration: 0.6 }}
+      >
+        <motion.img
           src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=900"
           alt="Our clinic"
           className="w-full h-[380px] object-cover"
+          animate={{ y: [0, -12, 0] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
 
         {/* Play button + label, bottom-left of the image */}
-        <button
-          onClick={() => setShowVideo(true)}
-          className="absolute bottom-6 left-6 flex items-center gap-3 bg-white/90 backdrop-blur px-4 py-3 rounded-full"
-        >
-          <FaPlay className="bg-emerald-900 text-white rounded-full p-2 text-2xl" />
-          <span className="text-sm text-left leading-tight">
-            Our Clinic Tour
-            <br />
-            <span className="text-gray-500">Watch Video</span>
-          </span>
-        </button>
+       <motion.button
+  onClick={() => setShowVideo(true)}
+  className="absolute bottom-6 left-6 flex items-center gap-3 bg-white/90 backdrop-blur px-4 py-3 rounded-full"
+  animate={{ y: [0, -10, 0] }}
+  transition={{
+    duration: 3,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+>
+  <FaPlay className="bg-emerald-900 text-white rounded-full p-2 text-2xl" />
+
+  <span className="text-sm text-left leading-tight">
+    Our Clinic Tour
+    <br />
+    <span className="text-gray-500">Watch Video</span>
+  </span>
+</motion.button>
       </motion.div>
 
       {/* Right side: text content and stats */}
