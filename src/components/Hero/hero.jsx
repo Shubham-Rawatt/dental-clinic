@@ -60,9 +60,11 @@ function Hero() {
               className="relative min-h-[600px] md:min-h-[620px] lg:h-[600px] flex items-center px-6 sm:px-10 md:px-14 lg:px-16 py-20 md:py-16 bg-cover bg-center"
               style={{ backgroundImage: `url(${slide.image})` }}
             >
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-white/10" />
+              {/* Soft dim layer: image ki brightness/glare kam karta hai */}
+              <div className="absolute inset-0 bg-stone-900/15" />
 
+              {/* Warm cream-emerald gradient (pure white nahi) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#e9efe6]/30 via-[#e9efe6]/10 to-transparent" />
               {/* Content */}
               <AnimatePresence mode="wait">
                 {activeIndex === index && (
@@ -74,7 +76,7 @@ function Hero() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                   >
-                    <p className="text-xs sm:text-sm tracking-wide text-gray-600 mb-3">
+                    <p className="text-xs sm:text-sm tracking-wide text-emerald-800 font-medium mb-3">
                       {slide.tag}
                     </p>
 
@@ -86,23 +88,23 @@ function Hero() {
                       {slide.titleLine3}
                     </h1>
 
-                    <p className="text-sm md:text-base text-gray-700 mb-7 max-w-md leading-relaxed">
+                    <p className="text-sm md:text-base text-stone-800 mb-7 max-w-md leading-relaxed">
                       Modern dental solutions for a healthier, more confident
-                      you. Expert care, advanced technology and a gentle touch
-                      — all in one place.
+                      you. Expert care, advanced technology and a gentle touch —
+                      all in one place.
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4">
-                      <button className="flex items-center gap-2 bg-emerald-900 text-white px-5 py-3 rounded-full text-sm hover:bg-emerald-800 transition">
+                      <button className="flex items-center gap-2 bg-emerald-900 text-emerald-50 px-5 py-3 rounded-full text-sm shadow-md shadow-emerald-900/20 hover:bg-emerald-800 transition">
                         Book Appointment
                         <FaArrowRight />
                       </button>
 
                       <button
                         onClick={() => setShowVideo(true)}
-                        className="flex items-center gap-2 text-sm"
+                        className="flex items-center gap-2 text-sm text-emerald-950"
                       >
-                        <FaPlay className="bg-white rounded-full p-2 text-2xl shadow" />
+                        <FaPlay className="bg-emerald-50 text-emerald-900 rounded-full p-2 text-3xl shadow-md shadow-emerald-900/10" />
                         Watch Video
                       </button>
                     </div>
@@ -111,18 +113,19 @@ function Hero() {
               </AnimatePresence>
 
               {/* Counter */}
-              <div className="absolute bottom-6 left-6 sm:left-10 md:left-14 lg:left-16 z-20 flex items-center gap-3 text-xs sm:text-sm text-gray-700">
-                <span>
-                  {String(activeIndex + 1).padStart(2, "0")}
+              <div className="absolute bottom-6 left-6 sm:left-10 md:left-14 lg:left-16 z-20 flex items-center gap-3 text-xs sm:text-sm text-emerald-950">
+                <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+
+                <span className="w-10 sm:w-16 h-[2px] bg-emerald-900/25 relative overflow-hidden">
+                  <span
+                    className="absolute inset-y-0 left-0 bg-emerald-900 transition-all duration-500"
+                    style={{
+                      width: `${((activeIndex + 1) / slides.length) * 100}%`,
+                    }}
+                  />
                 </span>
 
-                <span className="w-10 sm:w-16 h-[2px] bg-gray-300 relative">
-                  <span className="absolute inset-0 bg-emerald-900 w-1/3" />
-                </span>
-
-                <span>
-                  {String(slides.length).padStart(2, "0")}
-                </span>
+                <span>{String(slides.length).padStart(2, "0")}</span>
               </div>
 
               {/* Arrows */}
@@ -130,7 +133,8 @@ function Hero() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="prev-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-400 bg-white"
+                  aria-label="Previous slide"
+                  className="prev-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-emerald-900/30 bg-emerald-50/80 text-emerald-900 backdrop-blur-sm"
                 >
                   ←
                 </motion.button>
@@ -138,7 +142,8 @@ function Hero() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="next-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-400 bg-white"
+                  aria-label="Next slide"
+                  className="next-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-emerald-900/30 bg-emerald-50/80 text-emerald-900 backdrop-blur-sm"
                 >
                   →
                 </motion.button>
@@ -167,6 +172,7 @@ function Hero() {
             >
               <button
                 onClick={() => setShowVideo(false)}
+                aria-label="Close video"
                 className="absolute top-3 right-3 text-white text-xl z-10"
               >
                 <FaTimes />
@@ -174,7 +180,7 @@ function Hero() {
 
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                src="https://www.youtube.com"
                 title="Clinic video"
                 allow="autoplay; encrypted-media"
                 allowFullScreen
@@ -187,4 +193,4 @@ function Hero() {
   );
 }
 
-export default Hero;  
+export default Hero;

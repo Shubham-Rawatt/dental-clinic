@@ -1,5 +1,4 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import {
   FaInstagram,
   FaFacebookF,
@@ -77,14 +76,24 @@ function Footer() {
         <p className="text-xs text-gray-500">
           © 2026 DentiCare Dental. All rights reserved.
         </p>
-
-        <motion.button
-          whileHover={{ y: -3 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-xs text-gray-400 flex items-center gap-2"
-        >
-          Back to top <FaArrowUp />
-        </motion.button>
+<motion.button
+  whileHover={{ y: -3 }}
+  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  className="text-sm font-medium text-gray-400 flex items-center gap-2"
+>
+  Back to top
+  <motion.span
+    animate={{ y: [0, -5, 0] }}
+    transition={{
+      duration: 1.2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+    className="inline-flex font-bold"
+  >
+    <FaArrowUp />
+  </motion.span>
+</motion.button>
       </div>
     </footer>
   );
