@@ -1,49 +1,87 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaArrowRight, FaUser, FaPhoneAlt, FaTooth, FaRegCalendarAlt, FaCheckCircle,} from "react-icons/fa";
+import { motion } from "framer-motion";
+import {
+  FaArrowRight,
+  FaUser,
+  FaPhoneAlt,
+  FaTooth,
+  FaRegCalendarAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
 
 const Appointment = () => {
-  const [formData, setFormData] = useState({ name: "", phone: "", treatment: "", date: "", });
-  const [errors, setErrors] = useState({});
+  // har field ka alag state
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [treatment, setTreatment] = useState("");
+  const [date, setDate] = useState("");
+
+  // har error ka alag state
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [treatmentError, setTreatmentError] = useState("");
+  const [dateError, setDateError] = useState("");
+
   const [submitted, setSubmitted] = useState(false);
+
   const today = new Date().toISOString().split("T")[0];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
-
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone.trim())) {
-      newErrors.phone = "Enter a valid 10-digit phone number";
-    }
-    if (!formData.treatment) newErrors.treatment = "Please select a treatment";
-    if (!formData.date) newErrors.date = "Please select a date";
-    return newErrors;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newErrors = validate();
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    let hasError = false;
+
+    // Name check
+    if (name.trim() === "") {
+      setNameError("Name is required");
+      hasError = true;
+    } else {
+      setNameError("");
+    }
+
+    // Phone check
+    if (phone.trim() === "") {
+      setPhoneError("Phone number is required");
+      hasError = true;
+    } else if (!/^\d{10}$/.test(phone.trim())) {
+      setPhoneError("Enter a valid 10-digit phone number");
+      hasError = true;
+    } else {
+      setPhoneError("");
+    }
+
+    // Treatment check
+    if (treatment === "") {
+      setTreatmentError("Please select a treatment");
+      hasError = true;
+    } else {
+      setTreatmentError("");
+    }
+
+    // Date check
+    if (date === "") {
+      setDateError("Please select a date");
+      hasError = true;
+    } else {
+      setDateError("");
+    }
+
+    if (hasError) {
       setSubmitted(false);
       return;
     }
 
-    setErrors({});
-    console.log("Appointment request:", formData);
+    console.log("Appointment request:", { name, phone, treatment, date });
 
     setSubmitted(true);
-    setFormData({ name: "", phone: "", treatment: "", date: "" });
+    setName("");
+    setPhone("");
+    setTreatment("");
+    setDate("");
 
-    setTimeout(() => setSubmitted(false), 4000);
+    setTimeout(() => {
+      setSubmitted(false);
+    }, 4000);
   };
 
   const fieldBase =
@@ -63,7 +101,7 @@ const Appointment = () => {
             BOOK AN APPOINTMENT
           </p>
 
-          <h2 className="text-4xl md:text-5xl font-semibold text-[#1D1D1F]  mb-5">
+          <h2 className="text-4xl md:text-5xl font-semibold text-[#1D1D1F] mb-5">
             Your smile starts
             <br />
             with a visit.
@@ -113,27 +151,19 @@ const Appointment = () => {
                 <input
                   id="name"
                   type="text"
-                  name="name"
                   placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`${fieldBase} ${
-                    errors.name ? "border-red-300 bg-red-50" : ""
-                  }`}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={
+                    nameError
+                      ? `${fieldBase} border-red-300 bg-red-50`
+                      : fieldBase
+                  }
                 />
               </div>
-              <AnimatePresence>
-                {errors.name && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-xs text-red-500 mt-1.5 ml-1"
-                  >
-                    {errors.name}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {nameError !== "" && (
+                <p className="text-xs text-red-500 mt-1.5 ml-1">{nameError}</p>
+              )}
             </div>
 
             {/* Phone */}
@@ -146,27 +176,19 @@ const Appointment = () => {
                 <input
                   id="phone"
                   type="tel"
-                  name="phone"
                   placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className={`${fieldBase} ${
-                    errors.phone ? "border-red-300 bg-red-50" : ""
-                  }`}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className={
+                    phoneError
+                      ? `${fieldBase} border-red-300 bg-red-50`
+                      : fieldBase
+                  }
                 />
               </div>
-              <AnimatePresence>
-                {errors.phone && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-xs text-red-500 mt-1.5 ml-1"
-                  >
-                    {errors.phone}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {phoneError !== "" && (
+                <p className="text-xs text-red-500 mt-1.5 ml-1">{phoneError}</p>
+              )}
             </div>
 
             {/* Treatment */}
@@ -178,12 +200,13 @@ const Appointment = () => {
                 </label>
                 <select
                   id="treatment"
-                  name="treatment"
-                  value={formData.treatment}
-                  onChange={handleChange}
-                  className={`${fieldBase} appearance-none ${
-                    formData.treatment ? "text-[#1D1D1F]" : "text-gray-500"
-                  } ${errors.treatment ? "border-red-300 bg-red-50" : ""}`}
+                  value={treatment}
+                  onChange={(e) => setTreatment(e.target.value)}
+                  className={
+                    treatmentError
+                      ? `${fieldBase} appearance-none border-red-300 bg-red-50`
+                      : `${fieldBase} appearance-none`
+                  }
                 >
                   <option value="" disabled>
                     Select Treatment
@@ -194,18 +217,11 @@ const Appointment = () => {
                   <option value="Teeth Whitening">Teeth Whitening</option>
                 </select>
               </div>
-              <AnimatePresence>
-                {errors.treatment && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-xs text-red-500 mt-1.5 ml-1"
-                  >
-                    {errors.treatment}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {treatmentError !== "" && (
+                <p className="text-xs text-red-500 mt-1.5 ml-1">
+                  {treatmentError}
+                </p>
+              )}
             </div>
 
             {/* Date */}
@@ -218,52 +234,47 @@ const Appointment = () => {
                 <input
                   id="date"
                   type="date"
-                  name="date"
                   min={today}
-                  value={formData.date}
-                  onChange={handleChange}
-                  className={`${fieldBase} ${
-                    formData.date ? "text-[#1D1D1F]" : "text-gray-500"
-                  } ${errors.date ? "border-red-300 bg-red-50" : ""}`}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className={
+                    dateError
+                      ? `${fieldBase} border-red-300 bg-red-50`
+                      : fieldBase
+                  }
                 />
               </div>
-              <AnimatePresence>
-                {errors.date && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-xs text-red-500 mt-1.5 ml-1"
-                  >
-                    {errors.date}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {dateError !== "" && (
+                <p className="text-xs text-red-500 mt-1.5 ml-1">{dateError}</p>
+              )}
             </div>
 
             <motion.button
               type="submit"
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full flex items-center justify-center gap-3 bg-[#1D1D1F] text-white py-4 rounded-full text-sm mt-2"
+              className="w-full flex items-center justify-center gap-3 bg-[#1D1D1F] text-white py-4 rounded-full text-sm font-semibold mt-2"
             >
               Request Appointment
-              <FaArrowRight />
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="inline-flex"
+              >
+                <FaArrowRight />
+              </motion.span>
             </motion.button>
 
-            <AnimatePresence>
-              {submitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="flex items-center gap-2 bg-green-50 text-green-700 text-sm px-4 py-3 rounded-xl"
-                >
-                  <FaCheckCircle />
-                  Appointment request sent successfully!
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {submitted && (
+              <div className="flex items-center gap-2 bg-green-50 text-green-700 text-sm px-4 py-3 rounded-xl">
+                <FaCheckCircle />
+                Appointment request sent successfully!
+              </div>
+            )}
           </form>
         </motion.div>
       </div>

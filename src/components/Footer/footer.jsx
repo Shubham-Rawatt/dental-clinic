@@ -6,6 +6,7 @@ import {
   FaArrowUp,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -20,9 +21,33 @@ function Footer() {
           </p>
 
           <div className="flex gap-3 mt-5">
-            <FaInstagram />
-            <FaFacebookF />
-            <FaLinkedinIn />
+            
+              <a href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white hover:text-[#1D1D1F] transition-colors"
+            >
+              <FaInstagram />
+            </a>
+            
+             <a href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white hover:text-[#1D1D1F] transition-colors"
+            >
+              <FaFacebookF />
+            </a>
+            
+              <a href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white hover:text-[#1D1D1F] transition-colors"
+            >
+              <FaLinkedinIn />
+            </a>
           </div>
         </div>
 
@@ -30,18 +55,18 @@ function Footer() {
         <div>
           <h3 className="mb-4">Explore</h3>
           <div className="space-y-3 text-sm text-gray-400">
-            <a to="/" className="block hover:text-white">
+            <Link to="/" className="block hover:text-white transition-colors">
               Home
-            </a>
-            <a to="/about" className="block hover:text-white">
+            </Link>
+            <Link to="/about" className="block hover:text-white transition-colors">
               About
-            </a>
-            <a to="/treatments" className="block hover:text-white">
+            </Link>
+            <Link to="/treatments" className="block hover:text-white transition-colors">
               Treatments
-            </a>
-            <a to="/doctors" className="block hover:text-white">
+            </Link>
+            <Link to="/doctors" className="block hover:text-white transition-colors">
               Doctors
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -72,28 +97,29 @@ function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-gray-800 mt-12 pt-6 flex justify-between">
-        <p className="text-xs text-gray-500">
+      <div className="max-w-7xl mx-auto border-t border-gray-800 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs text-gray-500 text-center sm:text-left">
           © 2026 DentiCare Dental. All rights reserved.
         </p>
-<motion.button
-  whileHover={{ y: -3 }}
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  className="text-sm font-medium text-gray-400 flex items-center gap-2"
->
-  Back to top
-  <motion.span
-    animate={{ y: [0, -5, 0] }}
-    transition={{
-      duration: 1.2,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-    className="inline-flex font-bold"
-  >
-    <FaArrowUp />
-  </motion.span>
-</motion.button>
+
+        <motion.button
+          whileHover={{ y: -3 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="text-sm font-medium text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+        >
+          Back to top
+          <motion.span
+            animate={{ y: [0, -5, 0] }}
+            transition={{
+              duration: 1.2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="inline-flex font-bold"
+          >
+            <FaArrowUp />
+          </motion.span>
+        </motion.button>
       </div>
     </footer>
   );
